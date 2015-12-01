@@ -1,8 +1,11 @@
-<div class="progress epfl-progress" epflid="{{compo.cid}}">
-    <div class="progress-bar"
+<div class="progress epfl-progress" id="{{compo.cid}}" epflid="{{compo.cid}}">
+    <div class="progress-bar progress-bar-{{ compo.color }}"
          role="progressbar"
          aria-valuenow="{{compo.value}}"
          aria-valuemin="{{compo.min}}" aria-valuemax="{{compo.max}}"
-         style="width: {{compo.value}}%;"></div>
-     {{compo.value}}%
+         style="width: {{'0' if (compo.max == 0) else ((compo.value/compo.max)*100)|round|int}}%;">
+       {% if not compo.hide_value_label == True %}
+         {{ '0' if (compo.max == 0) else ((compo.value/compo.max)*100)|round|int}}%
+       {% endif %}
+  </div>
 </div>

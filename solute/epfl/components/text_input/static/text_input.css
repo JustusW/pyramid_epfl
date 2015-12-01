@@ -1,0 +1,6 @@
+.typeahead.dropdown-menu {
+    position: absolute;
+    max-height: 125px;
+    overflow-y: auto;
+    widht: inherit;
+}

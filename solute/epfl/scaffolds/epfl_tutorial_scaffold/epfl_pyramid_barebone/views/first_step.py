@@ -41,6 +41,8 @@ class NoteForm(Form):
             self.page.model.add_note(note_value)
         else:
             self.page.model.set_note(self.id, note_value)
+        self.page.notes_link_list.redraw()
+        self.page.notes_list.redraw()
         self.clean_form()
 
     def handle_cancel(self):
@@ -114,13 +116,16 @@ class FirstStepRoot(epfl.components.CardinalLayout):
     def init_struct(self):
         self.node_list.extend([Box(title='Edit note',
                                    node_list=[NoteForm(cid='note_form')]),
-                               Box(title='My notes',
+                               Box(cid="notes_list",
+                                   title='My notes',
                                    default_child_cls=NoteBox,
                                    data_interface={'id': None,
                                                    'text': None,
                                                    'title': None},
                                    get_data='notes'),
-                               LinkListLayout(get_data='notes',
+                               LinkListLayout(cid="notes_link_list",
+                                              get_data='notes',
+                                              auto_update_children=True,
                                               show_pagination=False,
                                               show_search=False,
                                               node_list=[ComponentBase(url='/',

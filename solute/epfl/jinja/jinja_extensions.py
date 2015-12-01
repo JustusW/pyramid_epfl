@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import time
-from solute.epfl import json
+import ujson as json
 import jinja2
 from jinja2 import nodes, Markup
 from jinja2.ext import Extension

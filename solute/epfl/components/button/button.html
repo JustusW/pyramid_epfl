@@ -1,16 +1,28 @@
 <div epflid="{{ compo.cid }}" class="row">
     {% if compo.label %}
-        <label for="{{compo.cid}}" class="col-sm-2 control-label">{{ compo.label }}</label>
+        <label for="{{ compo.cid }}" class="col-sm-{{ "2" if compo.label_col is not defined or compo.label_col is none else compo.label_col }} control-label">{{ compo.label }}</label>
     {% endif %}
-
-    <div class="{{ 'col-sm-10' if (compo.label is defined and not compo.label is none) else 'col-sm-12' }}">
-        <button class="form-control epfl-button {% if compo.color is defined %}btn-{{ compo.color }}{% endif %}" type="{{ 'submit' if compo.is_submit else 'button' }}" id="{{compo.cid}}">
+    <div class="{% if compo.label_col is defined and compo.label_col is not none %}
+                    {% if compo.compo_col is defined and compo.compo_col is not none %}
+                        col-sm-{{ compo.compo_col - compo.label_col }}
+                    {% else %}
+                        col-sm-{{ 12 - compo.label_col }}
+                    {% endif %}
+                {% else %}
+                    {{ 'col-sm-10' if (compo.label is defined and not compo.label is none) else 'col-sm-12' }}
+                {% endif %}">
+        <button title="{{ compo.tooltip if (compo.tooltip is not none) else '' }}" class="btn{% if compo.button_size is defined and compo.button_size is not none %} {{ compo.button_size }}{% else %} form-control{% endif %} epfl-button{% if compo.color is defined and compo.color is not none %} btn-{{ compo.color }}{% endif %}{{ " disabled" if (compo.disabled is defined and compo.disabled) else "" }}"
+                type="{{ 'submit' if compo.is_submit else 'button' }}" id="{{ compo.cid }}">
             {% if compo.icon is defined and (not compo.icon is none) %}
 
-            <i class="fa {{ compo.icon }}"></i>
-            {% else %}
-            {{ compo.value }}
+            <i class="fa fa-{{ compo.icon }}
+                      {% if compo.icon_size is defined and (not compo.icon_size is none) %} fa-{{ compo.icon_size  }}{{ "" if compo.icon_size == "lg" else "x" }}{% endif %}
+                      {% if compo.icon_color is defined and (not compo.icon_color is none) %} text-{{ compo.icon_color }}{% endif %}"></i>
             {% endif %}
+            {% if compo.value is defined and not compo.value is none %}
+                {{ compo.value }}
+            {% endif %}
+
         </button>
     </div>
  </div>

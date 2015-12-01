@@ -1,0 +1,11 @@
+{% macro render() %}
+    {% set compo = kwargs.compo %}
+    <table epflid="{{ compo.cid }}">
+        <tr>
+            {{ caller() }}
+        </tr>
+    </table>
+{% endmacro %}
+
+
+

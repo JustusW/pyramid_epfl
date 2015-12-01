@@ -13,8 +13,12 @@ Binding components
 .. code-block:: python
 
     class MyRootNode(ComponentContainerBase):
-        node_list = [Box(cid='my_box',
-                         title='My Box!')]
+        node_list = [
+            Box(
+                cid='my_box',
+                title='My Box!'
+            )
+        ]
 
         def setup_component(self):
             print self.page.my_box
@@ -64,11 +68,9 @@ Usually you'd find an |unbound_compo| instance and not a sub-class of |compo_bas
             return UnboundComponent(cls, config)
         [...]
 
-Any sub-class of |compo_base| will yield an
-|unbound_compo| instance if called without that parameter.
+Any sub-class of |compo_base| will yield an |unbound_compo| instance if called without that parameter. So there's a huge
+difference between those two:
 
-+-----------------------------------------------------------+
-| So there's a huge difference between those two            |
 +-----------------------------+-----------------------------+
 |.. code-block:: python       |.. code-block:: python       |
 |                             |                             |
@@ -111,6 +113,155 @@ Otherwise this updates the configuration, empties the
 :attr:`~solute.epfl.core.epflcomponentbase.UnboundComponent.__dynamic_class__` to dynamically generate a python
 type-class that is then used to create an instance of this |compo_base| sub-class.
 
+.. _dynamic_type_classes:
+
+Dynamic Type Classes
+--------------------
+You probably are aware of the possibility to create such a class, so here's what EPFL does:
+ 1. Check if this |unbound_compo| has already generated its actual class and return it if possible.
+
+    .. code-block:: python
+
+        @property
+        def __dynamic_class__(self):
+            """
+            If the config contains entries besides cid and slot a dynamic class is returned. This offers just in time
+            creation of the actual class object to be used by epfl.
+            """
+            if self.__dynamic_class_store__:
+                return self.__dynamic_class_store__
+
+ 2. Check if the config actually requires generating a dynamic class, return base class if not.
+
+    .. code-block:: python
+
+            stripped_conf = self.__unbound_config__.copy()
+            stripped_conf.pop('cid', None)
+            stripped_conf.pop('slot', None)
+            if len(stripped_conf) > 0:
+                conf_hash = str(stripped_conf).__hash__()
+                [...]
+            else:
+                return self.__unbound_cls__
+
+
+ 3. Check if the config is that of a pre existing dynamic class in the global store and return it if possible.
+
+    .. code-block:: python
+
+                try:
+                    return self.__global_dynamic_class_store__[(conf_hash, self.__unbound_cls__)]
+                except KeyError:
+                    pass
+
+ 4. Generate a dynamic class id, a name based on that and the original class name.
+
+    .. code-block:: python
+
+                dynamic_class_id = "{0:08x}".format(randint(0, 0xffffffff))
+                name = '{name}_auto_{dynamic_class_id}'.format(
+                    name=self.__unbound_cls__.__name__,
+                    dynamic_class_id=dynamic_class_id
+                )
+
+ 5. Fill the local class cache of this |unbound_compo|.
+
+    .. code-block:: python
+
+                self.__dynamic_class_store__ = type(name, (self.__unbound_cls__, ), {})
+
+ 6. Assign all necessary attributes from the config.
+
+    .. code-block:: python
+
+                self.__dynamic_class_store__ = type(name, (self.__unbound_cls__, ), {})
+                for param in self.__unbound_config__:
+                    setattr(self.__dynamic_class_store__, param, self.__unbound_config__[param])
+                setattr(self.__dynamic_class_store__, '___unbound_component__', self)
+
+ 7. Put the fresh class in the global cache and return it.
+
+    .. code-block:: python
+
+                self.__global_dynamic_class_store__[(conf_hash, self.__unbound_cls__)] = self.__dynamic_class_store__
+                return self.__global_dynamic_class_store__[(conf_hash, self.__unbound_cls__)]
+
+
+Component instantiation
+-----------------------
+Let's take a closer look at what happens in the __new__ method of |compo_base|.
+
+The discover mechanism
+``````````````````````
+
+.. code-block:: python
+
+        epflutil.Discover.discover_class(cls)
+
+This call has many implications, usually it shouldn't do anything, since most actual classes will be well known to EPFL
+from its initial discovery process. With :ref:`dynamic_type_classes` however this actually executes some very important
+steps in order to get a usable component. We will only take a look at the direct implications to the component at this
+time. A more complete overview of what is happening here and its context can be found here: :ref:`setting_up`
+
+The only immediate consequence of this call is a possible call to
+:meth:`~solute.epfl.core.epflcomponentbase.ComponentBase.discover` which does several important jobs.
+
+Housekeeping
+............
+Some functions are no longer available in the epfl core, and some errors are difficult to catch at runtimes. In order to
+avoid those a set of prohibitions is hardwired into the discover methods. Specifically:
+
+.. code-block:: python
+
+        if not cls.template_name:
+            raise Exception("You did not setup the 'self.template_name' in " + repr(cls))
+
+        if hasattr(cls, 'cid'):
+            raise Exception("You illegally set a cid as a class attribute in " + repr(cls))
+
+Other prohibitions may apply but can not be handled here. Overall it is considered best practice to check for such at
+this stage since it prevents EPFL from starting up at all, instead of only producing exceptions during certain requests.
+
+Setting up the Component State
+..............................
+The attribute names listed in the :attr:`~solute.epfl.core.epflcomponentbase.ComponentBase.compo_state` and
+:attr:`~solute.epfl.core.epflcomponentbase.ComponentBase.base_compo_state` originally were kept up to date against the
+:class:`~solute.epfl.core.epfltransaction.Transaction` by means of overwriting the __getattribute__ function. This
+however proved to be a major performance pitfall. Since using this process was no longer possible the recently
+implemented discovery mechanism was utilized to make the server side state work with very good performance.
+
+In a nutshell, the original attribute value is preserved in a python descriptor instance
+(:class:`~solute.epfl.core.epflcomponentbase.CompoStateAttribute`). The original attribute value
+is then replaced by this instance which accesses the transaction using
+:meth:`~solute.epfl.core.epflcomponentbase.ComponentBase.get_state_attr` and
+:meth:`~solute.epfl.core.epflcomponentbase.ComponentBase.set_state_attr`.
+
+Generating a usable object instance
+```````````````````````````````````
+
+.. code-block:: python
+
+        self = super(ComponentBase, cls).__new__(cls, **config)
+
+        self.cid = args[1]
+        self._set_page_obj(args[0])
+
+        self.__config = config
+
+        for attr_name in self.compo_config:
+            if attr_name in config:
+                config_value = config[attr_name]
+            else:
+                config_value = getattr(self, attr_name)
+
+            setattr(self, attr_name, copy.deepcopy(config_value))  # copy from class to instance
+
+        return self
+
+This part is straight forward thankfully. The original __new__ mechanism is used to create an instance of the class
+provided by the :class:`~solute.epfl.core.epflcomponentbase.UnboundComponent`. The cid and page object are set to the
+instance and the config is stored. Finally the component config attributes are copied to destroy any possible
+references that might taint the objects stored there.
 
 .. |unbound_compo| replace:: :class:`~solute.epfl.core.epflcomponentbase.UnboundComponent`
 .. |compo_base| replace:: :class:`~solute.epfl.core.epflcomponentbase.ComponentBase`

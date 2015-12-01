@@ -1,20 +1,25 @@
-<div epflid="{{compo.cid}}" class="epfl-image">
-<img src="{{ compo.get_image_path() }}" class="epfl-img-component-image" {% if compo.height %}height="{{ compo.height }}"{% endif %}/>
-<div class="row">
-	{% if compo.show_dominant_color %}
-	<div style="float:left">Dominante Farbe:<br>
-		<div class="epfl-img-component-dominant-color epfl-img-component-color" style="float:left; width:100%; height: 30px;"></div>
-	</div>
-	{% endif %}
-	{% if compo.show_additional_colors %}
-	<div style="float:left; margin-left:10px;">Weitere Farben:<br>
-		<div id="{{compo.cid}}_palette1" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
-		<div id="{{compo.cid}}_palette2" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
-		<div id="{{compo.cid}}_palette3" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
-		<div id="{{compo.cid}}_palette4" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
-		<div id="{{compo.cid}}_palette5" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
-		<div id="{{compo.cid}}_palette6" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
-	</div>
-	{% endif %}
-</div>
+<div id="{{compo.cid}}" epflid="{{compo.cid}}" class="epfl-image">
+    <img src="{{ compo.get_image_path() }}"
+         class="epfl-img-component-image"
+         data-cid="{{ compo.cid }}"
+         style="height: {{ 'auto' if compo.height is none else compo.height }};
+                width: {{ 'auto' if compo.width is none else compo.width }};
+                 {{ "padding: 10px;" if compo.padding else "" }}" />
+    {% if compo.show_dominant_color %}
+    <div class="row">
+        <div style="float:left">Dominante Farbe:<br>
+            <div class="epfl-img-component-dominant-color epfl-img-component-color" style="float:left; width:100%; height: 30px;"></div>
+        </div>
+        {% if compo.show_additional_colors %}
+        <div style="float:left; margin-left:10px;">Weitere Farben:<br>
+            <div id="{{compo.cid}}_palette1" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
+            <div id="{{compo.cid}}_palette2" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
+            <div id="{{compo.cid}}_palette3" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
+            <div id="{{compo.cid}}_palette4" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
+            <div id="{{compo.cid}}_palette5" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
+            <div id="{{compo.cid}}_palette6" class="epfl-img-component-color" style="float:left; width:15px; height: 15px;"></div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>

@@ -1,6 +1,0 @@
-
-.north    { margin:0; height: 50px; background: red;top: 0; left: 0; right: 0; position: absolute;}        
-.south    { margin:0; height: 50px; background: yellow; bottom: 0; left: 0; right: 0; position: absolute;}        
-.east     { margin:0; width: 150px; background: green; top: 50px; left: 0; top: 50px; bottom: 50px; position: absolute;}        
-.west     { margin:0; width: 150px; background: blue; top: 50px; right: 0; top: 50px; bottom: 50px; position: absolute;}        
-.center   { margin:0; top:50px; background: gray; margin-left: 150px; margin-right: 150px; left: 0; right: 0; top: 50px; bottom: 50px; position: absolute; overflow: auto;}        

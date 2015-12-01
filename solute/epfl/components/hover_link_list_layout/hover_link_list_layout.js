@@ -1,5 +1,4 @@
 {% for compo_obj in compo.components %}
-console.log($('[epflid={{ compo_obj.cid }}]'), '[epflid={{ compo_obj.cid }}]');
 $('[epflid={{ compo_obj.cid }}]').hover(function (e) {
     if (e.type == 'mouseleave') {
         $('#hover_element{{ compo_obj.cid }}').remove();

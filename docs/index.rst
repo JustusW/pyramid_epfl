@@ -23,6 +23,7 @@ Contents:
    beginner/index
    advanced/index
    professional/index
+   cookbook/index
 
    api/index
 

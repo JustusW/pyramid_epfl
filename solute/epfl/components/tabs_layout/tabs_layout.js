@@ -1,3 +1,1 @@
-$(function () {
-    epfl.init_component("{{compo.cid}}", "TabsLayoutComponent");
-});
+epfl.init_component("{{ compo.cid }}", "TabsLayout");

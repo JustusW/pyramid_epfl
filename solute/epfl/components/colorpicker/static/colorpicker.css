@@ -1,0 +1,41 @@
+div.epfl-colorpicker-colorfield {
+    width: 40px;
+    height: 25px;
+    margin: 3px;
+    border: 1px solid #DDD;
+}
+
+div.epfl-colorpicker-specialfield {
+    height: 25px;
+    margin: 3px;
+    border: 1px solid #DDD;
+    padding: 5px;
+}
+
+div.epfl-colorpicker-colorfield i {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 2px;
+    position: relative;
+    top: 3px;
+}
+
+div.epfl-colorpicker-colors {
+    position: relative;
+    background-color: white;
+    z-index: 5;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    width:450px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    cursor:pointer;
+    height:400px;
+    overflow-y: auto;
+}
+
+div.epfl-colorpicker-colors p {
+    padding-top: 10px;
+}

@@ -34,7 +34,7 @@ def epfl_acl(permissions, default_allow=True, default_principal='system.Everyone
             principal, permission = permission
         elif type(permission) is tuple and len(permission) == 3:
             action, principal, permission = permission
-            if action:
+            if action is True or action == security.Allow:
                 action = security.Allow
             else:
                 action = security.Deny
@@ -70,13 +70,16 @@ def epfl_acl(permissions, default_allow=True, default_principal='system.Everyone
     return wrapper
 
 
-def epfl_has_permission(permission, fail_callback=None, obj=None):
+def epfl_has_permission(permission, fail_callback=None, obj=None, use_global_acl=False):
     def wrapper(func):
         @wraps(func)
         def wrap(*args, **kwargs):
             self = args[0]
+            target = self
+            if use_global_acl:
+                target = DefaultACLRootFactory
             _request = self.request
-            if not _request.has_permission(permission, self):
+            if not _request.has_permission(permission, target):
                 if fail_callback:
                     return fail_callback(*args, **kwargs)
                 return

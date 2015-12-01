@@ -1,0 +1,7 @@
+{% macro render() %}
+    {% set compo = kwargs.compo %}
+    {% set compo_obj = kwargs.compo_obj %}
+        <a class="list-group-item col-sm-12" epflid="{{ compo_obj.cid }}">
+            {{ compo_obj.text }}
+        </a>
+{% endmacro %}

@@ -1,0 +1,19 @@
+<div id="{{ compo.cid }}" epflid="{{ compo.cid }}" class="epfl-colorthief"
+     style="{% if compo.height is not none %}height:{{ compo.height }}px;{% endif %} {% if compo.width is not none %}width:{{ compo.width }}px;{% endif %}">
+    {% if compo.image_src is not none %}
+        <i class="fa fa-times fa-lg text-danger epfl-colorthief-remove-icon"></i>
+    {% endif %}
+    <img class="epfl-colorthief-image" data-cid="{{ compo.cid }}" {% if compo.image_src is not none %}src="{{ compo.image_src }}"{% endif %}/>
+    {% if compo.image_src == none %}
+    <div class="epfl-colorthief-dropzone text-center" style="height:100%;width:100%;">
+            <i class="fa fa-image fa-{{ compo.add_icon_size }} epfl-dropzone-colorthief-addicon"></i>
+    </div>
+{% endif %}
+    {%if compo.value is not none %}
+        {% for val in compo.value %}
+            <div class="epfl-colorthief-color pull-left text-center" style="background-color: {{ val["rgb"] }}" data-color="{{ val["rgb"] }}">
+            {% if val["selected"] == True %}<i class="fa fa-check fa-lg text-primary"></i>{% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>

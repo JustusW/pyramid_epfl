@@ -10,6 +10,7 @@ Subpackages
     solute.epfl.core
     solute.epfl.jinja
     solute.epfl.scaffolds
+    solute.epfl.validators
 
 Module contents
 ---------------

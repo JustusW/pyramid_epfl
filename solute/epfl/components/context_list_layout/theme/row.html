@@ -1,0 +1,6 @@
+{% macro render() %}
+    {% set compo = kwargs.compo %}
+    <li class="list-group-item epfl-context-list-entry">
+        {{ caller() }}
+    </li>
+{% endmacro %}

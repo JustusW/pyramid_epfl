@@ -1,0 +1,55 @@
+{% macro color_list(value_options) %}
+    {% for val in value_options %}
+        {% if val["type"] == 0 %}
+            <div class="epfl-colorpicker-colorfield pull-left text-center"
+                 style="background-color: {{ val["data"] }}"
+                 data-toggle="tooltip"
+                 data-placement="top"
+                 data-container="body"
+                 title="{{ val["data"] }} {{ val["text"] if val["text"] is defined else "" }}"
+                 data-value="{{ val["data"] }}">
+                {% if compo.value and val in compo.value %}
+                    <i class="fa fa-check fa-lg text-primary"></i>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div class="clearfix"></div>
+    <p><strong>Spezial Werte:</strong></p>
+    {% for val in value_options %}
+        {% if val["type"] == 1 %}
+             <div class="epfl-colorpicker-specialfield pull-left text-center"
+                 data-toggle="tooltip"
+                 data-placement="top"
+                  data-container="body"
+                 title="{{ val["data"] }} {{ val["text"] if val["text"] is defined else "" }}"
+                 data-value="{{ val["data"] }}">
+                {% if compo.value and val in compo.value %}
+                    <i class="fa fa-check fa-lg text-primary"></i>
+                {% endif %}
+                {{ val["text"] }}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+
+{% endmacro %}
+
+<div id="{{ compo.cid }}" epflid="{{ compo.cid }}" class="epfl-colorpicker">
+    {% if compo.toggle_button %}
+        {############ Toggle Mode ############}
+        <button class="btn btn-default" type='button'><i class="fa fa-eyedropper"></i></button>
+        {% if compo.colors_visible %}
+            {% if compo.value_options is not none %}
+                <div class="epfl-colorpicker-colors">
+                    {{ color_list(compo.value_options) }}
+                </div>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        {############ Normal Mode ############}
+        {% if compo.value_options is not none %}
+            {{ color_list(compo.value_options) }}
+        {% endif %}
+    {% endif %}
+</div>

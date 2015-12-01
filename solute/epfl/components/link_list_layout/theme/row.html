@@ -1,24 +1,5 @@
 {% macro render() %}
     {% set compo = kwargs.compo %}
     {% set compo_obj = kwargs.compo_obj %}
-    {% if compo_obj.event_name is defined
-       and compo_obj.event_target is defined %}
-    <a class="list-group-item col-sm-12" epflid="{{ compo_obj.cid }}"
-       onclick="epfl.link_list_click(this,
-                                     '{{ compo_obj.event_name }}',
-                                 {% if compo_obj.event_target is defined and compo_obj.event_target == '__self__' %}
-                                     '{{ compo_obj.cid }}'
-                                 {% elif compo_obj.event_target is defined  %}
-                                     '{{ compo_obj.event_target }}'
-                                 {% else %}
-                                     '{{ compo.cid }}'
-                                 {% endif %}
-                                     )">
-		{{ compo_obj.text }}
-    </a>
-    {% else %}
-    <a class="list-group-item col-sm-12" href="{{ compo_obj.url }}" epflid="{{ compo_obj.cid }}">
-    	{{ compo_obj.text }}
-    </a>
-    {% endif %}
+    {{ caller() }}
 {% endmacro %}

@@ -1,12 +1,20 @@
 # * encoding: utf-8
 
-from pyramid.view import view_config
 from solute import epfl
+from solute.epfl import epflassets
+from solute.epfl import components
 
 
-class HomeRoot(epfl.components.CardinalLayout):
-    pass
+class HomeRoot(components.CardinalLayout):
+    def init_struct(self):
+        self.node_list.append(epflassets.EPFLView.get_nav_list()(slot='west'))
 
-@view_config(route_name='home')
+
+@epflassets.EPFLView(route_name='home', route_pattern='/', route_text='Home')
 class HomePage(epfl.Page):
-    root_node = HomeRoot(constrained=True, node_list=[epfl.components.Box(title="Welcome to EPFL!")])
+    root_node = HomeRoot(
+        constrained=True,
+        node_list=[
+            components.Box(title="Welcome to EPFL!")
+        ]
+    )

@@ -1,13 +1,47 @@
-<div epflid="{{ compo.cid }}" class="row epfl-text-input">
-	{% if compo.label %}
-	<label for="{{ compo.cid }}" class="col-sm-2 control-label">{{ compo.label }}</label>
-	{% endif %}
-    <div class="{{ 'col-sm-10' if (compo.label is defined and not compo.label is none) else 'col-sm-12' }}{{ ' has-error' if compo.validation_error else '' }}">
-        <div epfl-type="defaultinput">
-            <input class="form-control" type="text" id="{{ compo.cid }}" name="{{ compo.name }}" value="{{ compo.value if compo.value is not none else '' }}" placeholder="{{compo.placeholder if compo.placeholder is not none else ''  }}" {{ "data-provide='typeahead'"|safe if compo.typeahead else "" }}/>
-        </div>
-	    {% if compo.validation_error %}
-	        <small class="help-block has-error">{{ compo.validation_error }}</small>
-	    {% endif %}
+{% set compo_col = compo.compo_col %}
+<div id="{{ compo.cid }}" epflid="{{ compo.cid }}"
+     class="row epfl-text-input {{ 'mandatory' if compo.mandatory else '' }}">
+    {% if compo.label %}
+        {% if compo.layout_vertical == True %}
+            <div class="row">
+                <div class="col-sm-{{ compo_col }}">
+                    <label for="{{ compo.cid }}_input" class="control-label">{{ compo.label }}</label>
+                </div>
+            </div>
+        {% else %}
+            {% set compo_col = compo_col - compo.label_col %}
+            <label for="{{ compo.cid }}_input" class="control-label col-sm-{{ compo.label_col }}"
+                {% if compo.label_style is defined %}
+                    style="{{ compo.label_style }}"
+                {% endif %}
+                >{{ compo.label }}</label>
+        {% endif %}
+    {% endif %}
+    {% if compo.layout_vertical == True %}<div class="row">{% endif %}
+    <div class="col-sm-{{ compo_col }}{{ ' has-error' if compo.validation_error else '' }}">
+        {% if compo.layover_icon is not none %}
+        <div class="epfl-input-addon"><i class="fa {{ compo.layover_icon }}"></i>
+        {% endif %}
+            <input class="form-control" type="{% if compo.password %}password{% else %}text{% endif %}" id="{{ compo.cid }}_input" name="{{ compo.name }}"
+               value="{{ compo.value if compo.password == False and compo.value is not none else '' }}"
+               data-initial-value="{{ compo.value if compo.password == False and compo.value is not none else '' }}"
+               placeholder="{{ compo.placeholder if compo.placeholder is not none else '' }}"
+               {% if compo.typeahead == True or compo.date == True %}
+                   autocomplete="off"
+               {% endif %}
+               {% if compo.max_length is not none %}
+                   maxlength="{{ compo.max_length }}"
+               {% endif %} {% if compo.readonly is defined and compo.readonly %}disabled{% endif %}/>
+            {% if compo.layover_icon is not none %}
+                </div>
+            {% endif %}
+            {%  if compo.max_length is not none and compo.show_count is defined and compo.show_count %}
+                <div style="float: left;">(<span id="{{ compo.cid }}_input_count">0</span>/{{ compo.max_length }})</div>
+            {%  endif %}
+        {% if compo.validation_error %}
+            <small class="help-block">{{ compo.validation_error }}</small>
+        {% endif %}
     </div>
+    {% if compo.layout_vertical == True %}</div>{% endif %}
 </div>
+

@@ -1,0 +1,42 @@
+div.epfl-upload-file-over {
+    border: 1px dashed #1bb7a0;
+}
+
+div.epfl-dropzone {
+    border-width: 2px;
+    border-color: #D7D7D7;
+    border-style: dashed;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+div.epfl-upload.active_drop {
+    border-color: #1BB7A0;
+}
+
+div.epfl-upload.active_drop div.epfl-dropzone {
+    border-color: #1BB7A0;
+}
+
+img.epfl-upload-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+i.epfl-upload-remove-icon {
+    position:absolute;
+    right:0;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 4px;
+}
+
+.epfl-upload-input-zone > input {
+   padding-top: 0px;
+   padding-bottom: 0px;
+}
+

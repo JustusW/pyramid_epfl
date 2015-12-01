@@ -1,0 +1,40 @@
+{% set compo_col = compo.compo_col %}
+<div id="{{ compo.cid }}" epflid="{{ compo.cid }}"
+     class="row epfl-toggle-input {{ 'mandatory' if compo.mandatory else '' }}">
+    {% if compo.label %}
+        {% if compo.layout_vertical == True %}
+            <div class="row">
+                <div class="col-sm-{{ compo_col }}">
+                    <label for="{{ compo.cid }}_input" class="control-label">{{ compo.label }}</label>
+                </div>
+            </div>
+        {% else %}
+            {% set compo_col = compo_col - compo.label_col %}
+            <label for="{{ compo.cid }}_input"
+                   class="control-label col-sm-{{ compo.label_col }}">{{ compo.label }}</label>
+        {% endif %}
+    {% endif %}
+    {% if compo.layout_vertical == True %}
+        <div class="row">{% endif %}
+    <div class="col-sm-{{ compo_col }}{{ ' has-error' if compo.validation_error else '' }}">
+        <input type="hidden"
+               id="{{ compo.cid }}_input"
+               name="{{ compo.name }}"
+               value="{{ compo.value if compo.value is not none else '' }}"/>
+        <a id="{{ compo.cid }}_button" href="#" class="btn epfl-simpletoggle-button">
+            {% if compo.value is not none and compo.value == True %}
+                <i class="fa{% if compo.enabled_icon is not none %} fa-{{ compo.enabled_icon }}{% endif %}
+                            {% if compo.enabled_icon_size is not none %} fa-{{ compo.enabled_icon_size }}{% endif %}
+                            {% if compo.enabled_icon_color is not none %} text-{{ compo.enabled_icon_color }}{% endif %}"></i>
+            {% else %}
+                <i class="fa{% if compo.disabled_icon is not none %} fa-{{ compo.disabled_icon }}{% endif %}
+                            {% if compo.disabled_icon_size is not none %} fa-{{ compo.disabled_icon_size }}{% endif %}
+                            {% if compo.disabled_icon_color is not none %} text-{{ compo.disabled_icon_color }}{% endif %}"></i>
+            {% endif %}
+        </a>
+        {% if compo.validation_error %}
+            <small class="help-block">{{ compo.validation_error }}</small>
+        {% endif %}
+    </div>
+    {% if compo.layout_vertical == True %}</div>{% endif %}
+</div>

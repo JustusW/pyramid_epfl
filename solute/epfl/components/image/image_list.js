@@ -1,3 +1,1 @@
-epfl.init_component("{{compo.cid}}",
-                        "DroppableComponent",
-                        {type: {{ compo.get_valid_types(True)|safe }}});
+epfl.init_component("{{ compo.cid }}", "ImageList", {type: {{ compo.get_valid_types(True)|safe }}});

@@ -1,0 +1,11 @@
+{% macro render() %}
+    {% set compo = kwargs.compo %}
+    {% if compo.icon_close is defined and compo.show_children and compo.icon_close %}
+        <i class="fa fa-{{ compo.icon_close }}"></i>
+    {% elif compo.icon_open is defined and not compo.show_children and compo.icon_open %}
+        <i class="fa fa-{{ compo.icon_open }}"></i>
+    {% endif %}
+    {% if compo.label is defined and compo.label %}
+        <span>{{ compo.label }} ({{ compo.id }})</span>
+    {% endif %}
+{% endmacro %}

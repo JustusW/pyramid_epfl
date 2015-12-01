@@ -1,0 +1,16 @@
+<div id="{{compo.cid}}" epflid="{{ compo.cid }}" class="dropdown epfl_dropdown">
+  <button class="btn btn-default{{ " btn-xs" if compo.small_button else "" }} dropdown-toggle" type="button" id="{{ compo.cid }}_dropdownmenu" data-toggle="dropdown" aria-expanded="true">
+  {% if compo.menu_icon %}
+  <i class="fa {{ compo.menu_icon }}"></i>
+  {% endif %}
+  {{ compo.menu_label if compo.menu_label != None else "" }}{{ " <span class='caret'></span>"|safe if compo.caret else "" }}
+
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="{{ compo.cid }}_dropdownmenu">
+    {% if compo.children %}
+    {% for child in compo.children %}
+      <li role="presentation"><a class="epfl_dropdown_menuitem" data-menu-key="{{ child.key }}" role="menuitem" tabindex="-1" href="#">{{ child.label }}</a></li>
+    {% endfor %}
+    {% endif %}
+  </ul>
+</div>

@@ -1,0 +1,82 @@
+<div class="panel panel-default" id="{{ compo.cid }}" epflid="{{ compo.cid }}" {% if compo.height %}style="height: {{ compo.height }}px;"{% endif %}>
+    {% call before() %}
+    {% endcall %}
+    {% if compo.title is defined %}
+        <div class="panel-heading">{{ compo.title }}</div>
+    {% endif %}
+    {% if compo.show_export %}
+        <div class="epfl-table-layout-export">
+
+            <button class="btn form-control epfl-button" type="button" id="{{ compo.cid }}_export_button">
+                <i class="fa fa-download"></i> Export
+            </button>
+        </div>
+    {%  endif %}
+    <div id="{{ compo.cid }}_container" class="epfl-table-layout-container{{ " fixed-header" if compo.fixed_header else "" }}"
+    {% if compo.height %}
+        {% if compo.row_count > compo.row_limit and compo.show_pagination %}
+        style="height: {{ (compo.height - 80)|string }}px;"
+        {% else %}
+        style="height: {{ compo.height }}px;"
+        {% endif %}
+    {% endif %}
+    >
+        <table id="table_{{ compo.cid }}" class="table table-condensed table-hover epfl-table-layout"
+            {% if compo.style is defined %}
+                style="{{ compo.style }}"
+            {% endif %} >
+            {% if compo.headings is defined %}
+                <thead>
+                    <tr>
+                        {% for header in compo.headings %}
+                            {% if compo.column_visibility is not none and compo.column_visibility[loop.index0] == False %}
+                            <th style="width: 20px;">
+                                <i class="show-column-icon fa fa-angle-double-right"></i>
+                            </th>
+                            {% else %}
+                            <th {% if header.width is defined %}style="width: {{ header.width }}px;"{% endif %}><span>{{ header.title }}</span>
+
+                            {% if header.toggle_visibility_supported is defined and header.toggle_visibility_supported %}
+                                <i class="hide-column-icon fa fa-angle-double-left"></i>
+                            {% elif header.sortable is defined and header.sortable %}
+                                {% if compo.orderby != header.name or compo.ordertype is none %}
+                                    <i class="header-sortable fa fa-sort"></i>
+                                {% elif compo.orderby == header.name and compo.ordertype == "asc" %}
+                                    <i class="header-sortable fa fa-sort-asc"></i>
+                                {% elif compo.orderby == header.name and compo.ordertype == "desc" %}
+                                    <i class="header-sortable fa fa-sort-desc"></i>
+                                {% endif %}
+                            {% endif %}
+
+                            </th>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                </thead>
+            {% endif %}
+            <tbody>
+            {% for slot_name, slot_content in compo.slotted_components.items() %}
+                <tr {% if compo.row_colors and slot_name in compo.row_colors %}class="epfl-table-layout {{ compo.row_colors[slot_name] }}"{% endif %}>
+                {% for compo_obj in slot_content %}
+                    {% if compo.column_visibility is not none and compo.column_visibility[loop.index0] == False %}
+                    <td style="width:20px;">
+                    </td><td style="display:none;">
+                        {{ compo_obj.render() }}
+                    </td>
+                    {% else %}
+                    <td>
+                        {{ compo_obj.render() }}
+                    </td>
+                    {% endif %}
+
+                {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        {% call after() %}
+        {% endcall %}
+    </div>
+</div>

@@ -1,0 +1,39 @@
+div.epfl-colorthief-dropzone {
+    border-width: 2px;
+    border-color: #D7D7D7;
+    border-style: dashed;
+    border-radius: 15px;
+}
+
+i.epfl-dropzone-colorthief-addicon {
+    position: relative;
+    top: 30%;
+}
+
+img.epfl-colorthief-image {
+    width: 100%;
+}
+
+div.epfl-colorthief-color {
+    width: 40px;
+    height: 25px;
+    margin: 3px;
+    border: 1px solid #DDD;
+}
+
+div.epfl-colorthief-color i {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 2px;
+    position:relative;
+    top:3px;
+}
+
+i.epfl-colorthief-remove-icon {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 4px;
+}

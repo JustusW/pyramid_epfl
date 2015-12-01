@@ -8,7 +8,7 @@ Extra-Content-Handling is here!
 
 import jinja2
 import string
-from solute.epfl import json
+import ujson as json
 
 
 def quote_escape_html(html):
@@ -101,7 +101,7 @@ class JSBlockContent(ExtraContent):
 
     def render(self):
         data = self.data.strip()
-        if data.startswith("<script"):
+        if data[:7] == "<script":
             data = data[data.index(">") + 1:]
         if data.endswith("</script>"):
             data = data[:-9]
@@ -198,9 +198,15 @@ class EPFLResponse(object):
 
         for el in self.ajax_response:
             if type(el) is unicode:
-                out.append(el.encode("utf-8"))
-            else:
                 out.append(el)
+            else:
+                try:
+                    # First try pythons standards, an asci encoded string will be decoded and a unicode will be
+                    # returned.
+                    out.append(unicode(el))
+                except UnicodeDecodeError:
+                    # In case of error we support utf-8, nothing else.
+                    out.append(unicode(el.decode('utf-8')))
 
         # collect the other-pages js
         for page_obj in self.page_request.get_handeled_pages():

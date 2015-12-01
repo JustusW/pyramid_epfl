@@ -1,1 +1,1 @@
-epfl.init_component("{{compo.cid}}" , "BadgeComponent", {});
+epfl.init_component("{{ compo.cid }}", "Badge", {});

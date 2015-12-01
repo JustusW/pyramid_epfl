@@ -15,28 +15,35 @@ import json
 
 
 class Diagram(epflcomponentbase.ComponentBase):
-
-    __acl__ = [(security.Allow, security.Everyone, 'access')]
+    asset_spec = "solute.epfl.components:diagram/static"
 
     template_name = "diagram/diagram.html"
     js_parts = epflcomponentbase.ComponentBase.js_parts + ["diagram/diagram.js"]
-    asset_spec = "solute.epfl.components:diagram/static"
 
-    js_name = ["highcharts.js", "exporting.js",
-               "export-csv-1.2.1.js", "diagram.js"]
+    js_name = ["highcharts.js", "exporting.js", "export-csv-1.2.1.js", "diagram.js"]
 
-    compo_config = []
     compo_state = ["diagram_params"]
 
-    diagram_params = {}
+    diagram_params = None  #: Dict of diagram parameters. Please consult the highcharts.js documentation.
+
+    def __init__(self, page, cid, diagram_params=None, **extra_params):
+        """A component for showing complex diagrams using highcharts.js.
+
+        :param diagram_params: Dict of diagram parameters. Please consult the highcharts.js documentation.
+        """
+        super(Diagram, self).__init__(page, cid, diagram_params=diagram_params, **extra_params)
 
     def get_params(self):
+        if self.diagram_params is None:
+            self.diagram_params = {}
         return self.diagram_params
 
     def set_params(self, params):
         self.diagram_params = params
 
     def handle_visibilityChange(self, series_visibility):
+        if self.diagram_params is None:
+            self.diagram_params = {}
         if not "series" in self.diagram_params:
             return
         for series_visibility_entry in series_visibility:
@@ -47,5 +54,3 @@ class Diagram(epflcomponentbase.ComponentBase):
                             backed_series_entry["visible"] = False
                         elif "visible" in backed_series_entry:
                             backed_series_entry.pop("visible")
-
-    

@@ -6,6 +6,7 @@ Submodules
 
 .. toctree::
 
+   solute.epfl.core.epflacl
    solute.epfl.core.epflassets
    solute.epfl.core.epflclient
    solute.epfl.core.epflcomponentbase
@@ -17,6 +18,7 @@ Submodules
    solute.epfl.core.epfltempdata
    solute.epfl.core.epfltransaction
    solute.epfl.core.epflutil
+   solute.epfl.core.epflvalidators
 
 Module contents
 ---------------

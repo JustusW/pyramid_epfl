@@ -1,0 +1,78 @@
+.fht-tbody {
+    overflow: auto;
+}
+
+table.fht-table, .fht-table {
+    margin-bottom: 0px;
+}
+
+.fht-table > thead > tr > th,
+.fht-table > tbody > tr > td {
+    overflow: hidden;
+}
+
+.epfl-table-layout .show-column-icon, .epfl-table-layout .hide-column-icon, .epfl-table-layout .header-sortable {
+    cursor: pointer;
+}
+
+.epfl-table-layout-container {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+tr.epfl-table-layout.row-default {
+}
+
+tr.epfl-table-layout.row-primary {
+    background-color: #1bb7a0;
+    color: #FFF;
+}
+
+tr.epfl-table-layout.row-primary:hover {
+    color: #000;
+    background-color: #1bb7a0;
+    opacity: 0.5;
+}
+
+tr.epfl-table-layout.row-success {
+    background-color: #94b758;
+    color: #FFF;
+}
+
+tr.epfl-table-layout.row-success:hover {
+    color: #000;
+    background-color: #94b758;
+    opacity: 0.5;
+}
+
+tr.epfl-table-layout.row-info {
+    background-color: #56bdf1;
+    color: #FFF;
+}
+
+tr.epfl-table-layout.row-info:hover {
+    color: #000;
+    background-color: #56bdf1;
+    opacity: 0.5;
+}
+
+tr.epfl-table-layout.row-warning {
+    background-color: #f3c536;
+    color: #FFF;
+}
+
+tr.epfl-table-layout.row-warning:hover {
+    color: #000;
+    background-color: #f3c536;
+    opacity: 0.5;
+}
+
+tr.epfl-table-layout.row-danger {
+    background-color: #fa7b58;
+    color: #FFF;
+}
+
+tr.epfl-table-layout.row-danger:hover {
+    color: #000;
+    background-color: #fa7b58;
+    opacity: 0.5;
+}

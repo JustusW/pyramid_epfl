@@ -1,7 +1,5 @@
-{% if compo.type == "br" %}
-    <br/>
-{% elif compo.type == "hr" %}
-    <hr>
+{% if compo.type == "hr" %}
+    <hr epflid="{{ compo.cid }}"/>
 {% else %}
-    <br/>
+    <br epflid="{{ compo.cid }}"/>
 {% endif %}

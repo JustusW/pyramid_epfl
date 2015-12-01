@@ -1,33 +1,50 @@
-<div epflid="{{ compo.cid }}" class="row epfl-radio">
-	{% if compo.label %}
-	<label for="{{ compo.cid }}" class="col-sm-2 control-label">{{ compo.label }}</label>
-	{% endif %}
-    <div class="{{ 'col-sm-10' if (compo.label is defined and not compo.label is none) else 'col-sm-12' }}{{ ' has-error' if compo.validation_error else '' }}">
-        <div class="form-control" id="{{ compo.cid }}" name="{{ compo.name }}" epfl-type="radiobuttongroup">
-	            {% for option in compo.options %}
-	                {% if option is string %}
-	                    {% set value = option %}
-	                    {% set visual = option %}
-	                {% else %}
-	                    {% if option[0] is defined and option[1] is defined %}
-	                        {% set value = option[0] %}
-	                        {% set visual = option[1] %}
-	                    {% endif %}
-	                    {% if option["visual"] is defined  %}
-	                          {% set visual = option["visual"] %}
-	                          {% if option["value"] is defined %}
-	                              {% set value = option["value"] %}
-	                          {% endif %}
-	                          {% if option["id"] is defined %}
-	                              {% set value = option["id"] %}
-	                          {% endif %}
-	                    {% endif %}
-	                {% endif %}
-	                <input type="radio" value="{{ value }}" name="{{ compo.cid }}" {% if compo.value == value %} checked="checked" {% endif %} >{{ visual }}</input>
-	            {% endfor %}
-		</div>
-	    {% if compo.validation_error %}
-	        <small class="help-block has-error">{{ compo.validation_error }}</small>
-	    {% endif %}
+{% set compo_col = compo.compo_col %}
+<div id="{{ compo.cid }}" epflid="{{ compo.cid }}"
+     class="row epfl-radio-input {{ 'mandatory' if compo.mandatory else '' }}">
+    {% if compo.label %}
+        {% if compo.layout_vertical == True %}
+            <div class="row">
+                <div class="col-sm-{{ compo_col }}">
+                    <label class="control-label">{{ compo.label }}</label>
+                </div>
+            </div>
+        {% else %}
+            {% set compo_col = compo_col - compo.label_col %}
+            <label class="control-label col-sm-{{ compo.label_col }}">{{ compo.label }}</label>
+        {% endif %}
+    {% endif %}
+{% if compo.layout_vertical == True %}<div class="row">{% endif %}
+    <div class="col-sm-{{ compo_col }}{{ ' has-error' if compo.validation_error else '' }}">
+        <div name="{{ compo.name }}" epfl-type="radiobuttongroup">
+        {% if compo.options != None %}
+            {% for option in compo.options %}
+                {% if option is string %}
+                    {% set value = option %}
+                    {% set visual = option %}
+                {% else %}
+                    {% if option[0] is defined and option[1] is defined %}
+                        {% set value = option[0] %}
+                        {% set visual = option[1] %}
+                    {% endif %}
+                    {% if option["visual"] is defined %}
+                        {% set visual = option["visual"] %}
+                        {% if option["value"] is defined %}
+                            {% set value = option["value"] %}
+                        {% endif %}
+                        {% if option["id"] is defined %}
+                            {% set value = option["id"] %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                <input type="radio"
+                       value="{{ value }}"
+                       {% if compo.value == value %}checked="checked"{% endif %}
+                       name="{{ compo.cid }}"
+                       {% if compo.readonly is defined and compo.readonly %}disabled{% endif %}>{{ visual }}{% endfor %}{% endif %}
+        </div>
+        {% if compo.validation_error %}
+            <small class="help-block">{{ compo.validation_error }}</small>
+        {% endif %}
     </div>
+{% if compo.layout_vertical == True %}</div>{% endif %}
 </div>

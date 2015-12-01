@@ -15,3 +15,7 @@ Have fun on your journey into the core of EPFL!
     binding_epfl
     cycling_epfl
     components
+    get_data
+    event_handling
+    rendering
+    setting_up

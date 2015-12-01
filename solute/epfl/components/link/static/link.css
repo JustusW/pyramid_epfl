@@ -1,0 +1,132 @@
+a.breadcrumb-link, a.breadcrumb-link:active, a.breadcrumb-link:focus {
+    background: #393a46 !important;
+}
+
+a.breadcrumb-link {
+    margin: 0 15px;
+    padding: 15px 5px;
+    background-clip: padding-box;
+    color: white;
+}
+
+a.breadcrumb-link:before, a.breadcrumb-link:after {
+    content: "";
+    height: 0;
+    width: 0;
+}
+
+a.breadcrumb-link:hover {
+    background: #656673 !important;
+}
+
+a.breadcrumb-link:hover:before {
+    border-top-color: #656673;
+    border-bottom-color: #656673;
+}
+
+ a.breadcrumb-link:hover:after {
+    border-left-color: #656673;
+}
+
+a.breadcrumb-link:after {
+    float: right;
+    margin: -15px -25px 0 0;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    border-left: 10px solid #393a46;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    a.breadcrumb-link:after {
+        margin: -35px -25px 0 0;
+    }
+}
+
+a.breadcrumb-link:before {
+    float: left;
+    margin: -15px 0 0 -25px;
+    border-top: 25px solid #393a46;
+    border-bottom: 25px solid #393a46;
+    border-left: 10px solid transparent;
+}
+
+a.breadcrumb-link.first:before {
+    border: none;
+    margin: 0;
+}
+
+a.tile-link > span {
+    margin: auto;
+}
+a.tile-link i {
+    font-size: 2em;
+    display: block;
+}
+
+a.tile-link, a.tile-link:hover, a.tile-link:active, a.tile-link:focus {
+    display: inline-block;
+    text-align: center;
+    color: white;
+    width: 100px;
+    height: 100px;
+    background: #393a46;
+    border: 1px solid #656673;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+a.tile-link:hover {
+    background: #656673;
+}
+
+a span.marked_link mark {
+    padding: 0;
+}
+
+a:hover button.epfl-context-menu-btn {
+    display: block;
+    position: absolute;
+    top:5px;
+    right:10px;
+}
+
+a button.epfl-context-menu-btn {
+    display: none;
+}
+
+ul.epfl-context-list-dropdown {
+    float: right;
+}
+
+ul.context-dropdown-menu{
+    display: none;
+    border: 1px solid #DDDDDD;
+    list-style-type: none;
+    background-clip: padding-box;
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    position: fixed;
+    z-index: 5000;
+    background-color: #FFFFFF;
+    padding-left: 0;
+    font-size: 14px;
+    cursor:pointer;
+}
+
+ul.context-dropdown-menu li.entry:hover{
+    background-color:  #DDDDDD;
+}
+ul.context-dropdown-menu li.entry{
+    padding-top: 3px;
+    padding-left: 15px;
+    padding-right: 15px;
+
+}
+
+ul.context-dropdown-menu li.divider{
+    border-bottom: 1px solid #DDDDDD;
+    height: 1px;
+    padding-top: 3px;
+}
+
+

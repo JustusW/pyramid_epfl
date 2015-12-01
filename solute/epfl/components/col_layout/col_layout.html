@@ -1,7 +1,7 @@
-<div class="row{{ " vertical-align" if compo.vertical_center else "" }}" epflid="{{ compo.cid }}">
+<div class="row{{ " vertical-align" if compo.vertical_center else "" }}{{ " "+compo.css_cls if compo.css_cls else "" }}" id="{{ compo.cid }}" epflid="{{ compo.cid }}">
 {% for compo_obj in compo.components %}
-	<div class="col-md-{{ compo_obj.cols }}">
-    	{{ compo_obj.render() }}
+  <div class="col-{{ compo_obj.col_class if compo_obj.col_class is defined and compo_obj.col_class is not none else 'md' }}-{{ compo_obj.cols if compo_obj.cols is defined and compo_obj.cols is not none else '12' }}{% if compo_obj.align is defined and compo_obj.align is not none %} text-{{ compo_obj.align }}{% endif %}">
+      {{ compo_obj.render() }}
     </div>
 {% endfor %}
 </div>

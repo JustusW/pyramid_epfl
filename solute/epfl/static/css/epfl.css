@@ -1,28 +1,52 @@
 
 .epfl_hover_image_selected {
-	border: 3px solid blue;
+    border: 3px solid blue;
 }
 .epfl_hover_image {
-	border: 3px solid transparent;
+    border: 3px solid transparent;
 }
 
 #epfl_please_wait {
-	display:none;
-	padding:5px;
-	position:absolute;
-	width:65px;
-	height:65px;
-	/*background:#eee;*/
-	/*border:1px solid #a0a0a0;*/
+    display:none;
+    padding:5px;
+    position:absolute;
+    width:65px;
+    height:65px;
+    z-index:2000;
+    /*background:#eee;*/
+    /*border:1px solid #a0a0a0;*/
 }
 
 #epfl_message {
-	padding:20px;
-	position:absolute;
+    padding:20px;
+    position:absolute;
     background:#eee;
-	border:1px solid #a0a0a0;
+    border:1px solid #a0a0a0;
 }
 
 .clickable {
-	cursor: pointer !important;
+    cursor: pointer !important;
+}
+
+/* layover icons for input fields */
+.epfl-input-addon {
+    position: relative;
+}
+.epfl-input-addon > i.fa, .epfl-input-addon > span.fa {
+  position: absolute;
+  right:  0px;
+  padding: 10px;
+  pointer-events: none;
+}
+.epfl-input-addon > input { padding-right: 30px; }
+
+.active_drop {
+    border-top: 1px dashed black;
+    margin-top: -1px;
+}
+.active_drop.root_drop {
+    border-top: none;
+    margin-top: 0;
+    border-bottom: 1px dashed black;
+    margin-bottom: -1px;
 }

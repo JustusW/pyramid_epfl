@@ -2,20 +2,36 @@
 from solute.epfl.core import epflcomponentbase
 
 class Progress(epflcomponentbase.ComponentBase):
+    """
+    This component display a progress bar.
+
+    Use it code like this:
+
+    .. code:: python
+
+        progress = Progress(min=0, max=100, value=70)
+
+   """
 
     template_name = "progress/progress.html"
-    
-    js_parts = epflcomponentbase.ComponentBase.js_parts + ["progress/progress.js"]
 
-    asset_spec = "solute.epfl.components:progress/static"
-    js_name = ["progress.js"]
+    compo_state = ["value", "min", "max", "color"]
 
-    css_name = ["progress.css", "bootstrap.min.css"]
 
-    compo_state = ["value","min","max"]
+    value = 0  #: The value of the progress bar
+    min = 0  #: The min value of the progress bar
+    max = 100  #: The max value of the progress bar
+    color = "default"  #: color of the progress bar (can be "default", "info", "warning", "danger", "success"
+    hide_value_label = False  #: Set to True if value label should not be printed
 
-    compo_config = []
+    def __init__(self, page, cid, value=None, min=False, max=None, color=None, hide_value_label=False, **extra_params):
+        """A component that display a progress bar.
 
-    value = 0
-    min = 0
-    max = 100
+        :param value: The value of the progress bar
+        :param min: The min value of the progress bar
+        :param max: The max value of the progress bar
+        :param color: The color of the progress bar
+        :param hide_value_label: Set to True if value label should not be printed
+        """
+        super(Progress, self).__init__()
+

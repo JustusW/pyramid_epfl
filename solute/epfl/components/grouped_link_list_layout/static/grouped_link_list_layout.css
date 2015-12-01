@@ -1,0 +1,46 @@
+.list-layout.grouped .epfl-list {
+    overflow: visible;
+}
+
+.grouped-entry.col-sm-12 {
+    padding: 0;
+    position: relative;
+}
+
+.grouped-entry .hover-container {
+    /*display: inline-block;*/
+    /*margin: 0 0 -5px;*/
+    /*position: relative;*/
+}
+
+.grouped-entry .list-group {
+    position: absolute;
+
+    top: 0;
+    left: 100%;
+    width: 100%;
+
+    display: none;
+}
+
+.grouped-entry:focus > .list-group, .grouped-entry:hover > .list-group {
+    display: block;
+}
+
+div.grouped-entry.col-sm-12 a.list-group-item {
+    cursor: pointer;
+}
+
+div.headed-entry.col-sm-12 div.list-group-item mark {
+    padding: 0;
+}
+
+div.headed-entry.col-sm-12 a.list-group-item {
+    padding-left: 30px;
+    cursor: pointer;
+}
+
+div.headed-entry.col-sm-12 {
+    margin: 0;
+    padding: 0;
+}

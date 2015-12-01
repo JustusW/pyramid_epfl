@@ -1,4 +1,4 @@
-from solute.epfl.components.form.form import FormInputBase
+from solute.epfl.components.form.inputbase import FormInputBase
 
 
 class Toggle(FormInputBase):
@@ -15,11 +15,25 @@ class Toggle(FormInputBase):
     
     template_name = "toggle/toggle.html"
     
-    validation_type = 'bool'
+    js_name = FormInputBase.js_name + [("solute.epfl.components:toggle/static", "bootstrap-switch.min.js"),
+                                       ("solute.epfl.components:toggle/static", "toggle.js")]
+    css_name = FormInputBase.css_name + [("solute.epfl.components:toggle/static", "bootstrap-switch.min.css"),
+                                         ("solute.epfl.components:toggle/static", "toggle.css")]
+
+    validation_type = 'bool'  #: Validate this component as a boolean.
     
-    js_name = FormInputBase.js_name + [("solute.epfl.components:toggle/static", "bootstrap-switch.min.js")]
-    css_name = FormInputBase.css_name + [("solute.epfl.components:toggle/static", "bootstrap-switch.min.css")]
-    
-    on_text = "an" #: The text to be displayed if toggle is set to on.
-    off_text = "aus" #: The text to be displayed if toggle is set to off.
-    default = False #: The default value of the toggle.
+    on_text = "on"  #: The text to be displayed if toggle is set to on.
+    off_text = "off"  #: The text to be displayed if toggle is set to off.
+    default = False  #: The default value of the toggle.
+
+    js_parts = FormInputBase.js_parts[:]
+    js_parts.extend(['toggle/toggle.js'])
+
+    def __init__(self, page, cid, on_text=None, off_text=None, default=None, **extra_params):
+        """A toggling form input.
+
+        :param on_text: Text shown for the "on" state evaluating to a value of True.
+        :param off_text: Text shown for the "off" state evaluating to a value of False.
+        :param default: Initial value the component will hold.
+        """
+        super(Toggle, self).__init__(page, cid, on_text=on_text, off_text=off_text, default=default, **extra_params)

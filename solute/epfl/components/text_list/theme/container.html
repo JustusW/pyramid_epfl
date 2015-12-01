@@ -1,0 +1,6 @@
+{% macro render() %}
+    {% set compo = kwargs.compo %}
+    <ul id="{{compo.cid}}" epflid="{{ compo.cid }}" class="list-group">
+        {{ caller() }}
+    </ul>
+{% endmacro %}

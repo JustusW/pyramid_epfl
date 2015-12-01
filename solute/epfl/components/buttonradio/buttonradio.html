@@ -1,9 +1,21 @@
-<div epflid="{{ compo.cid }}" class="row">
-	{% if compo.label %}
-	<label for="{{ compo.cid }}" class="col-sm-2 control-label">{{ compo.label }}</label>
-	{% endif %}
-    <div class="{{ 'col-sm-10' if (compo.label is defined and not compo.label is none) else 'col-sm-12' }}{{ ' text-center' if compo.center else '' }}{{ ' has-error' if compo.validation_error else '' }}">
-		<div id="{{compo.cid}}" name="{{ compo.name }}" epfl-type="buttonsetgroup" class="btn-group epfl-buttonradio" data-toggle="buttons">
+{% set compo_col = compo.compo_col %}
+<div id="{{ compo.cid }}" epflid="{{ compo.cid }}"
+     class="row epfl-buttonradio-input {{ 'mandatory' if compo.mandatory else '' }}">
+     {% if compo.label %}
+        {% if compo.layout_vertical == True %}
+            <div class="row">
+                <div class="col-sm-{{ compo_col }}">
+                    <label class="control-label">{{ compo.label }}</label>
+                </div>
+            </div>
+        {% else %}
+            {% set compo_col = compo_col - compo.label_col %}
+            <label class="control-label col-sm-{{ compo.label_col }}">{{ compo.label }}</label>
+        {% endif %}
+    {% endif %}
+{% if compo.layout_vertical == True %}<div class="row">{% endif %}
+    <div class="col-sm-{{ compo_col }}{{ ' has-error' if compo.validation_error else '' }}">
+        <div name="{{ compo.name }}" epfl-type="radiobuttongroup" class="btn-group epfl-buttonradio" data-toggle="buttons">
             {% for option in compo.options %}
                 {% if option is string %}
                     {% set value = option %}
@@ -34,9 +46,10 @@
                     {{ visual }}
                 </label>
             {% endfor %}
-		</div>	
+        </div>
         {% if compo.validation_error %}
-            <small class="help-block has-error">{{ compo.validation_error }}</small>
+            <small class="help-block">{{ compo.validation_error }}</small>
         {% endif %}
     </div>
+{% if compo.layout_vertical == True %}</div>{% endif %}
 </div>

@@ -1,0 +1,18 @@
+<div id="{{ compo.cid }}" epflid="{{ compo.cid }}" class="epfl-embedded-video">
+    {% if compo.video_type == compo.VIDEO_TYPE_YOUTUBE %}
+        <iframe width="{{ "100%" if compo.width is none else compo.width }}"
+                height="{{ "100%" if compo.height is none else compo.height }}"
+                src="https://www.youtube.com/embed/{{ compo.video_id }}{{ "?html5=1" if compo.force_youtube_html5 else "" }}"
+                frameborder="0"
+                allowfullscreen></iframe>
+        {% elif compo.video_type == compo.VIDEO_TYPE_VIMEO%}
+        <iframe src="https://player.vimeo.com/video/{{ compo.video_id }}"
+                width="{{ "100%" if compo.width is none else compo.width }}"
+                height="{{ "100%" if compo.height is none else compo.height }}"
+                frameborder="0"
+                webkitallowfullscreen
+                mozallowfullscreen
+                allowfullscreen></iframe>
+    {% endif %}
+</div>
+

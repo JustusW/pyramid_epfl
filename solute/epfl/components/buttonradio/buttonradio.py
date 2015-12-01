@@ -1,4 +1,4 @@
-from solute.epfl.components.form.form import FormInputBase
+from solute.epfl.components.form.inputbase import FormInputBase
 
 
 class ButtonRadio(FormInputBase):
@@ -12,7 +12,20 @@ class ButtonRadio(FormInputBase):
         form = Form(node_list=[ButtonRadio(label="Gender:", name="gender", default="male", options=["male", "female"])])
 
     """
-
     template_name = "buttonradio/buttonradio.html"
-    validation_type = 'text'
-    center=False
+    compo_state = FormInputBase.compo_state + ['options']
+
+    js_parts = FormInputBase.js_parts + ['buttonradio/buttonradio.js']
+    js_name = FormInputBase.js_name + [("solute.epfl.components:buttonradio/static", "buttonradio.js")]
+    css_name = FormInputBase.css_name + [("solute.epfl.components:buttonradio/static", "buttonradio.css")]
+
+    options = ""  #: List of strings or key, value tuples presented as options.
+
+    validation_type = 'text'  #: Evaluate this component as text.
+
+    def __init__(self, page, cid, options=None, **extra_params):
+        """A component displaying a radio form input with buttons.
+
+        :param options: List of strings or key, value tuples presented as options.
+        """
+        super(ButtonRadio, self).__init__(page, cid, options=options, **extra_params)

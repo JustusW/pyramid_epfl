@@ -1,0 +1,89 @@
+{% set compo_col = compo.compo_col %}
+<div id="{{ compo.cid }}" epflid="{{ compo.cid }}"
+     class="row epfl-text-input epfl-upload {{ 'mandatory' if compo.mandatory else '' }}"
+     style="{% if compo.height != None %}height:{{ compo.height }}px;{% endif %} {% if compo.width != None %}width:{{ compo.width }}px;{% endif %}">
+    {% if compo.label %}
+        {% if compo.layout_vertical == True %}
+            <div class="row">
+                <div class="col-sm-{{ compo_col }}">
+                    <label for="{{ compo.cid }}_input" class="control-label">{{ compo.label }}</label>
+                </div>
+            </div>
+        {% else %}
+            {% set compo_col = compo_col - compo.label_col %}
+            <label for="{{ compo.cid }}_input" class="control-label col-sm-{{ compo.label_col }}"
+                    {% if compo.label_style is defined %}
+                   style="{{ compo.label_style }}"
+                    {% endif %}
+                    >{{ compo.label }}</label>
+        {% endif %}
+    {% endif %}
+    {% if compo.layout_vertical == True %}
+        <div class="row">{% endif %}
+
+    <div class="col-sm-{{ compo_col }}{{ ' has-error' if compo.validation_error else '' }}">
+
+        {% if compo.readonly is defined and compo.readonly %}
+            <p class="form-control-static">{{ compo.value if compo.value is not none else '' }}</p>
+        {% else %}
+            {# 'Real' Compo Area #}
+
+            {# Image #}
+            <div id="{{ compo.cid }}_img">
+                {% if compo.value and not compo.no_preview %}
+                    {% if compo.show_remove_icon %}
+                        <i class="fa fa-times fa-lg color-danger epfl-upload-remove-icon"></i>
+                    {% endif %}
+                  {% if compo.value is string %}
+                      <img src="{{ compo.value }}" class="epfl-upload-image" data-cid="{{ compo.cid }}"/>
+                  {% else %}
+                        {% for file in compo.value %}
+                            <img src="{{ file["data"] }}" class="epfl-upload-image" data-cid="{{ compo.cid }}"/>
+                        {% endfor %}
+                  {% endif %}
+                {% endif %}
+            </div>
+
+            {# Dropzone #}
+            {% if compo.show_drop_zone and not compo.value %}
+                <div class="epfl-dropzone text-center"
+                     style="{% if compo.height != None %}height:{{ compo.height }}px;{% endif %} {% if compo.width != None %}width:{{ compo.width }}px;{% endif %}">
+                    <div style="position:relative; top: {{ "35" if compo.drop_zone_add_position_top is none else compo.drop_zone_add_position_top }}%">
+                        <i class="fa fa-plus fa-{{ compo.plus_icon_size }}"></i>
+                        {% if compo.drop_zone_add_text %}
+                            <div class="small">{{ compo.drop_zone_add_text }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+            {# File Input #}
+            {% if compo.show_file_upload_input %}
+                <div class="epfl-upload-input-zone">
+                    {% if compo.value is none or compo.file_upload_input_preview == False %}
+                        <input class="form-control" type="file" id="{{ compo.cid }}_input" name="{{ compo.name }}"
+                               value="{{ compo.value if compo.value is not none else '' }}"
+                               placeholder="{{ compo.placeholder if compo.placeholder is not none else '' }}"/>
+                    {% else %}
+                        {% if compo.file_infos %}
+                            {% for file_info in compo.file_infos %}
+                                <p style='min-height: 20px;'>
+                                    {{ file_info["name"] if file_info["name"] is not none else '' }}
+                                    {% if compo.no_preview or not compo.show_remove_icon %}
+                                        <i class="fa fa-times fa-lg color-danger epfl-upload-remove-icon"></i>
+                                    {% endif %}
+                                </p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endif %}
+
+
+        {% endif %}
+        {% if compo.validation_error %}
+            <small class="help-block">{{ compo.validation_error }}</small>
+        {% endif %}
+    </div>
+    {% if compo.layout_vertical == True %}</div>{% endif %}
+</div>
+

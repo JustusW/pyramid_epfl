@@ -1,0 +1,5 @@
+.list-layout.pretty .epfl-list {
+   overflow-y:auto;
+   border: 1px solid #DFDFDF;
+   height:100%;
+}

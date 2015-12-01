@@ -1,0 +1,4 @@
+.epfl-number-input :invalid {
+  border-color: #fa7b58;
+}
+

@@ -11,3 +11,4 @@ you to learn how to do it!
     developers/index
     feature_chart
     todo
+    styleguide

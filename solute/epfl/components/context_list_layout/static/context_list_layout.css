@@ -1,0 +1,19 @@
+.epfl-context-list-group {
+  margin-bottom:0px;
+}
+
+li.epfl-context-list-entry {
+    padding:5px 5px 5px 5px;
+    min-height:35px;
+}
+
+li.epfl-context-list-entry:hover {
+    background-color: #F5F5F5;
+}
+
+li:hover button.epfl-context-menu-btn {
+    display: block;
+    position: absolute;
+    top:5px;
+    right:10px;
+}

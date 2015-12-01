@@ -1,35 +1,51 @@
-<div epflid="{{ compo.cid }}" class="row epfl-select">
-	{% if compo.label %}
-	<label for="{{ compo.cid }}" class="col-sm-2 control-label">{{ compo.label }}</label>
-	{% endif %}
-    <div class="{{ 'col-sm-10' if (compo.label is defined and not compo.label is none) else 'col-sm-12' }}{{ ' has-error' if compo.validation_error else '' }}">
-        <div epfl-type="select">
-            <select class="form-control" id="{{compo.cid}}" name="{{ compo.name }}">
+{% set compo_col = compo.compo_col %}
+<div id="{{ compo.cid }}" epflid="{{ compo.cid }}"
+     class="row epfl-select-input {{ 'mandatory' if compo.mandatory else '' }}">
+    {% if compo.label %}
+        {% if compo.layout_vertical == True %}
+            <div class="row">
+                <div class="col-sm-{{ compo_col }}">
+                    <label for="{{ compo.cid }}_input" class="control-label">{{ compo.label }}</label>
+                </div>
+            </div>
+        {% else %}
+            {% set compo_col = compo_col - compo.label_col %}
+            <label for="{{ compo.cid }}_input" class="control-label col-sm-{{ compo.label_col }}">{{ compo.label }}</label>
+        {% endif %}
+    {% endif %}
+{% if compo.layout_vertical == True %}<div class="row">{% endif %}
+    <div class="col-sm-{{ compo_col }}{{ ' has-error' if compo.validation_error else '' }}">
+        <select class="form-control" id="{{compo.cid}}_input" name="{{ compo.name }}" {% if compo.readonly is defined and compo.readonly %}disabled{% endif %}>
+            {% if (not compo.value is defined or compo.value is none) and (compo.placeholder is defined and not compo.placeholder is none) %}
+            <option value="" disabled selected style="display:none;">{{ compo.placeholder }}</option>
+            {% endif %}
+        {% if compo.options != None %}
             {% for option in compo.options %}
                 {% if option is string %}
-                {% set value = option %}
-                {% set visual = option %}
-            {% else %}
-                {% if option[0] is defined and option[1] is defined %}
-                    {% set value = option[0] %}
-                    {% set visual = option[1] %}
-                {% endif %}
-                {% if option["visual"] is defined  %}
-                      {% set visual = option["visual"] %}
-                      {% if option["value"] is defined %}
-                          {% set value = option["value"] %}
-                      {% endif %}
-                      {% if option["id"] is defined %}
-                          {% set value = option["id"] %}
-                      {% endif %}
-                {% endif %}
-            {% endif %}
-                <option value="{{ value }}" {% if compo.value == value %} selected="selected" {% endif %} >{{ visual }}</option>
+	                {% set value = option %}
+	                {% set visual = option %}
+	            {% else %}
+	                {% if option[0] is defined and option[1] is defined %}
+	                    {% set value = option[0] %}
+	                    {% set visual = option[1] %}
+	                {% endif %}
+	                {% if option["visual"] is defined  %}
+	                      {% set visual = option["visual"] %}
+	                      {% if option["value"] is defined %}
+	                          {% set value = option["value"] %}
+	                      {% endif %}
+	                      {% if option["id"] is defined %}
+	                          {% set value = option["id"] %}
+	                      {% endif %}
+	                {% endif %}
+	            {% endif %}
+                <option value="{{ value }}"{% if compo.value == value %} selected="selected"{% endif %}>{{ visual }}</option>
             {% endfor %}
+        {% endif %}
             </select>
-        </div>
         {% if compo.validation_error %}
-            <small class="help-block has-error">{{ compo.validation_error }}</small>
+            <small class="help-block">{{ compo.validation_error }}</small>
         {% endif %}
     </div>
+{% if compo.layout_vertical == True %}</div>{% endif %}
 </div>

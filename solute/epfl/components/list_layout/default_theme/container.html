@@ -1,6 +1,6 @@
 {% macro render() %}
     {% set compo = kwargs.compo %}
-    <ul epflid="{{ compo.cid }}">
+    <ul id="{{compo.cid}}" epflid="{{ compo.cid }}">
         {{ caller() }}
     </ul>
 {% endmacro %}

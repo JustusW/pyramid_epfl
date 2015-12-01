@@ -16,12 +16,9 @@ def main(global_config, **settings):
     config = Configurator(settings=settings)
     config.include("solute.epfl")
 
-    config.add_route('home', '/')
-
     session_factory = session_factory_from_settings(settings)
     config.set_session_factory(session_factory)
 
-    config.include('pyramid_chameleon')
     config.add_static_view(name='static',
                            path='epfl_pyramid_barebone:static',
                            cache_max_age=3600)

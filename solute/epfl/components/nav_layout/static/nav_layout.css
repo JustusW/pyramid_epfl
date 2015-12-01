@@ -1,0 +1,16 @@
+.navbar-header a.navbar-brand, .nav.navbar-inverse .navbar-nav > li > a {
+    color: white;
+}
+
+.nav.navbar-inverse .navbar-nav > li > a {
+    font-size: 12px;
+}
+
+.navbar-header a.navbar-brand img {
+    height: 34px;
+    border: 3px solid white;
+    padding: 0 6px;
+    background: white;
+    margin: -7px 8px 0 -20px;
+    border-radius: 10px;
+}

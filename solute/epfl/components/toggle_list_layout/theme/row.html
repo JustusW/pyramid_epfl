@@ -1,8 +1,0 @@
-{% macro render() %}
-    {% set compo = kwargs.compo %}
-    {% set compo_obj = kwargs.compo_obj %}
-    {% set previous_caller = caller %}
-    {% if compo.show_children == True %}
-        {{ caller() }}
-    {% endif %}
-{% endmacro %}

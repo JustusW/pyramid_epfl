@@ -1,5 +1,19 @@
-<div class="{{ 'col-sm-12' if compo.container_compo else ('container' if compo.constrained else 'container-fluid') }}" epflid="{{ compo.cid }}">
-    {% if compo.cardinal_components('north') %}
+{% if compo.container_compo %}
+    {% set container_type = "col-sm-12" %}
+{% elif compo.constrained is defined and compo.constrained %}
+    {% set container_type = "container" %}
+{% else %}
+    {% set container_type = "container-fluid" %}
+{% endif %}
+<div class="{{ container_type }}{{ " "+compo.css_cls if compo.css_cls else "" }}"
+     id="{{compo.cid}}" epflid="{{ compo.cid }}">
+    {% if compo.cardinal_components('north') and 'north' in compo.plain %}
+    <div class="row">
+        {% for compo_obj in compo.cardinal_components('north') %}
+            {{ compo_obj.render() }}
+        {% endfor %}
+    </div>
+    {% elif compo.cardinal_components('north') %}
     <div class="row">
         <div class="col-sm-12">
             {% for compo_obj in compo.cardinal_components('north') %}
@@ -29,13 +43,19 @@
         </div>
     {% endif %}
     </div>
-    {% if compo.cardinal_components('south') %}
+    {% if compo.cardinal_components('south') and 'south' in compo.plain %}
+    <div class="row">
+        {% for compo_obj in compo.cardinal_components('south') %}
+            {{ compo_obj.render() }}
+        {% endfor %}
+    {% elif compo.cardinal_components('south') %}
     <div class="row">
         <div class="col-sm-12">
             {% for compo_obj in compo.cardinal_components('south') %}
                 {{ compo_obj.render() }}
             {% endfor %}
         </div>
+    </div>
     </div>
     {% endif %}
 </div>

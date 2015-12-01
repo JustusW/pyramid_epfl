@@ -2,7 +2,7 @@
 
 from solute.epfl.core import epflconfig
 from zope.interface import Interface, implements
-from solute.epfl import json
+import ujson as json
 
 # the interfaces:
 

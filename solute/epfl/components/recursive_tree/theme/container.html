@@ -1,0 +1,4 @@
+{% macro render() %}
+    {% set compo = kwargs.compo %}
+    <ul epflid="{{ compo.cid }}" id="{{ compo.cid }}" class="epfl-recursive-tree">{{ caller() }}</ul>
+{% endmacro %}

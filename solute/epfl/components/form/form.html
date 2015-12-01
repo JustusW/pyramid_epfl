@@ -1,5 +1,6 @@
-<form class="form-horizontal epfl-form" epflid="{{compo.cid}}">
+<form class="form-horizontal epfl-form" id="{{compo.cid}}" epflid="{{compo.cid}}" data-{{ "dirty='1'"|safe if compo.is_dirty else "dirty='0'"|safe }}>
     {% for compo in compo.components %}
         {{ compo() }}
     {% endfor %}
+    <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" />
 </form>

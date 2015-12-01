@@ -1,6 +1,6 @@
 {% macro render() %}
     {% set compo = kwargs.compo %}
-    <div class="list-group row" epflid="{{ compo.cid }}">
+    <div class="list-group row {{ compo.list_type|join(' ') }}" id="{{compo.cid}}" epflid="{{ compo.cid }}">
         {{ caller() }}
     </div>
 {% endmacro %}

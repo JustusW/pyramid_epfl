@@ -223,11 +223,12 @@ Lets start by adding a simple Box below or "Edit note" box:
 	
 	    def init_struct(self):
 	        ...
-	        self.node_list.append(Box(title='My notes',
+	        self.node_list.append(Box(cid='notes_list',
+	                                   title='My notes',
 	                                   default_child_cls=ComponentBase(),
 	                                   get_data='notes'))
 
-We have provided two new attributes for this Box: get_data="notes" tells the component to use a method load_notes() on the model to obtain the data,
+We have provided three new attributes for this Box: the cid is used to access the component later, get_data="notes" tells the component to use a method load_notes() on the model to obtain the data,
 and default_child_cls is used to tell the component which child to create for rendering each tem of the list that load_notes() returned.
 
 Currently, we use an empty ComponentBase object, the basic component provided by EPFL which currently does nothing.
@@ -239,7 +240,8 @@ However, with two more little tools, we can easily make this component smart eno
 
 	    def init_struct(self):
 	        ...
-	        self.node_list.append(Box(title='My notes',
+	        self.node_list.append(Box(cid='notes_list',
+	                                   title='My notes',
 	                                   default_child_cls=ComponentBase(template_name='epfl_pyramid_barebone:templates/note.html'),
 	                                   data_interface={'id': None,
 	                                                   'text': None,
@@ -264,6 +266,18 @@ added a h2 and pre block to this div which we fill with title and id as well as 
 These attributes (id, title, and text) are set by the get_data method with the note data, and we can directly access it within the jinja template,
 where the component instance is available as the compo variable.
 
+In order to have the "My notes" box automatically refreshed when a new note is added, we have to trigger a redraw() of the component in the
+event where the note is added: 
+
+.. code-block:: python
+
+	class NoteForm(Form):
+	    ...
+	
+	    def handle_submit(self):
+	        ...
+	        self.page.notes_list.redraw()
+
 If you try the code now, you will see that every creation of a new note leads to a corresponding block in the "My notes" box displaying the component information!
 
 What's next? We can easily create another component that serves as a left-hand menu which also displays the created notes (for example, to provide links to a
@@ -277,7 +291,9 @@ different view that displays a note in detail). This only takes 8 lines of code:
 
 	    def init_struct(self):
 	        ...
-	        self.node_list.append(LinkListLayout(get_data='notes',
+	        self.node_list.append(LinkListLayout(cid='notes_link_list',
+	                                              get_data='notes',
+	                                              auto_update_children=True,
 	                                              show_pagination=False,
 	                                              show_search=False,
 	                                              node_list=[ComponentBase(url='/', text='Home')],
@@ -292,6 +308,17 @@ of the note data struct.
 
 The list also expects an URL attribute. Here, we construct the target url with the ID of the note as parameter, which we can access with {id} inside the string.
 Of course the route for the target URL is missing, but we don't care about those links right now.
+
+Again, we have to manually trigger a redraw of this component when a new notes is added:
+
+.. code-block:: python
+
+	class NoteForm(Form):
+	    ...
+	
+	    def handle_submit(self):
+	        ...
+	        self.page.notes_link_list.redraw()
 
 Next, we want to use the note form not only for creating new notes, but also for editing existing notes.
 First, how do we want to edit notes? Well, lets just provide an edit button in our list of notes.
@@ -319,7 +346,8 @@ Since these notes list children ares getting more complex now, we move the child
 	
 	    def init_struct(self):
 	        ...
-	        self.node_list.append(Box(title='My notes',
+	        self.node_list.append(Box(cid='notes_list',
+	                               title='My notes',
 	                               default_child_cls=NoteBox,
 	                               data_interface={'id': None,
 	                                               'text': None,

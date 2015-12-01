@@ -1,4 +1,1 @@
-$('[epflid="{{compo.cid}}"]').submit(function(event) {
-    event.preventDefault();
-    epfl.dispatch_event("{{compo.cid}}", "submit", {});
-});
+epfl.init_component("{{ compo.cid }}", "Form", {});
